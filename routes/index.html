@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BSIT-3C Midterm</title>
+  <style>
+    body { font-family: Arial; padding: 20px; background: #f0f2f5; }
+    .card { background: white; padding: 20px; margin: 15px 0; border-radius: 10px; }
+    li { margin: 5px 0; }
+  </style>
+</head>
+<body>
+  <h1>BSIT-3C Project - Connected!</h1>
+
+  <div class="card">
+    <h2>Profile</h2>
+    <p id="profile">Loading...</p>
+  </div>
+
+  <div class="card">
+    <h2>Students</h2>
+    <ul id="students"></ul>
+  </div>
+
+  <div class="card">
+    <h2>Courses</h2>
+    <ul id="courses"></ul>
+  </div>
+
+  <div class="card">
+    <h2>Sections</h2>
+    <ul id="sections"></ul>
+  </div>
+
+<script>
+  const API = 'http://127.0.0.1:8000/api';
+
+  fetch(`${API}/profile`)
+    .then(r => r.json())
+    .then(p => {
+      document.getElementById('profile').innerHTML = 
+        `${p.name} - ${p.course} ${p.section}`;
+    });
+
+  fetch(`${API}/students`)
+    .then(r => r.json())
+    .then(data => {
+      document.getElementById('students').innerHTML =
+        data.map(s => `<li>${s.name} - ${s.course} Year ${s.year_level}</li>`).join('');
+    });
+
+  fetch(`${API}/courses`)
+    .then(r => r.json())
+    .then(data => {
+      document.getElementById('courses').innerHTML =
+        data.map(c => `<li>${c.code} - ${c.name}</li>`).join('');
+    });
+
+  fetch(`${API}/sections`)
+    .then(r => r.json())
+    .then(data => {
+      document.getElementById('sections').innerHTML =
+        data.map(s => `<li>${s.name} - Year ${s.year_level}</li>`).join('');
+    });
+</script>
+</body>
+</html>
